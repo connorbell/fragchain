@@ -9,6 +9,10 @@ public class Chain : MonoBehaviour
 
     [SerializeField]
     Vector2 baseResolution;
+
+    [SerializeField]
+    Material destMaterial;
+
     void Start()
     {
         foreach (ShaderPass shaderPass in shaders)
@@ -22,7 +26,13 @@ public class Chain : MonoBehaviour
 
         for (int i = 1; i < shaders.Count; i++)
         {
+            shaders[i].SetTexture("_MainTex", shaders[i-1].renderTexture);
             shaders[i].Blit(shaders[i-1].renderTexture);
+        }
+
+        if (destMaterial != null)
+        {
+            destMaterial.mainTexture = shaders[shaders.Count - 1].renderTexture;
         }
     }
 }
