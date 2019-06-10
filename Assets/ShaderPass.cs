@@ -16,6 +16,7 @@ public class ShaderPass : MonoBehaviour
 	Shader shader;
 	
     public RenderTexture renderTexture;
+    [HideInInspector]
     public RenderTexture feedbackTexture;
 
     private Vector2 finalResolution;

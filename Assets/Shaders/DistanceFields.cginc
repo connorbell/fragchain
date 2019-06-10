@@ -95,8 +95,8 @@ float map(float3 pos) {
 		pos += displacement * scale;
 
 		phase = float(i)*0.5 + distFromCam;
-		pR(pos.xz, -_Time.y - distFromCam + float(i) + sin(phase)*.05);
-		pR(pos.zy, _Time.y + distFromCam + float(i) + cos(phase)*.075);
+		pR(pos.xz, -_Midi1 - distFromCam + float(i)*0.5 + sin(phase)*_Midi3);
+		pR(pos.zy, _Midi2 + distFromCam + float(i)*0.5 + cos(phase)*_Midi4);
 
 		scale *= 0.6;
 

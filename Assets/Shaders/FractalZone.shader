@@ -16,6 +16,16 @@
             #pragma fragment frag
 
             #include "UnityCG.cginc"
+
+			float _Midi1;
+			float _Midi2;
+			float _Midi3;
+			float _Midi4;
+			float _Midi5;
+			float _Midi6;
+			float _Midi7;
+			float _Midi8;
+			
 			#include "DistanceFields.cginc"
 
             struct appdata

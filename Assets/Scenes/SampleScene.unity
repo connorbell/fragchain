@@ -333,10 +333,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   shaders:
   - {fileID: 576052824}
-  - {fileID: 698437403}
   - {fileID: 1905971190}
   - {fileID: 1462948373}
-  baseResolution: {x: 1024, y: 1024}
+  baseResolution: {x: 256, y: 256}
   destMaterial: {fileID: 2100000, guid: 06cb4806e3704b04587f9068718ae362, type: 2}
 --- !u!4 &852409837
 Transform:
