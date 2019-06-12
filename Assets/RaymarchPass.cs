@@ -24,7 +24,6 @@ public class RaymarchPass : ShaderPass
         Mat.SetFloat("_Midi6", v6);
         Mat.SetFloat("_Midi7", v7);
         Mat.SetFloat("_Midi8", v8);
-
         Mat.SetVector("_CamPos", Camera.main.transform.position);
         Mat.SetVector("_CamForward", Camera.main.transform.forward);
         Mat.SetVector("_CamRight", Camera.main.transform.right);

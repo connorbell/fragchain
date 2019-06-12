@@ -35,8 +35,6 @@ public class Chain : MonoBehaviour
             Time.fixedDeltaTime = (1f / fps) * duration;
         }
 
-        Debug.Log(Time.fixedDeltaTime);
-
         foreach (ShaderPass shaderPass in shaders)
         {
             shaderPass.InitWithResolution(baseResolution);
@@ -45,6 +43,8 @@ public class Chain : MonoBehaviour
 
     void FixedUpdate()
     {
+        shaders[0].Blit(null);
+
         for (int i = 1; i < shaders.Count; i++)
         {
             shaders[i].SetTexture("_MainTex", shaders[i-1].renderTexture);

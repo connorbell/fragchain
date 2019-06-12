@@ -25,35 +25,46 @@
 			float _Midi6;
 			float _Midi7;
 			float _Midi8;
-			
+		          sampler2D _MainTex;
+			float3 _CamForward;
+			float3 _CamRight;
+			float3 _CamUp;
+			float3 _CamPos;
+			float _FocalLength;	
 			#include "DistanceFields.cginc"
 
             struct appdata
             {
                 float4 vertex : POSITION;
-                float2 uv : TEXCOORD0;
+				float2 uv : TEXCOORD0;
             };
 
             struct v2f
             {
                 float2 uv : TEXCOORD0;
                 float4 vertex : SV_POSITION;
+				float4 ray : TEXCOORD1;
             };
+
+			float3x3 setCamera( in float3 ro, in float3 ta, float cr )
+			{
+				float3 cw = normalize(ta-ro);
+				float3 cp = float3(sin(cr), cos(cr),0.0);
+				float3 cu = normalize( cross(cw,cp) );
+				float3 cv = normalize( cross(cu,cw) );
+				return float3x3( cu, cv, cw );
+			}
 
             v2f vert (appdata v)
             {
                 v2f o;
                 o.vertex = UnityObjectToClipPos(v.vertex);
+
+				float3x3 cam = setCamera(_CamPos, _CamPos + _CamForward, 0.);
+				o.ray.xyz = mul(normalize(float3(v.uv,1.)), cam);
                 o.uv = v.uv;
                 return o;
             }
-
-            sampler2D _MainTex;
-			float3 _CamForward;
-			float3 _CamRight;
-			float3 _CamUp;
-			float3 _CamPos;
-			float _FocalLength;
 
 			float march(in float3 pos, in float3 rd)
 			{
@@ -77,22 +88,14 @@
 				return normalize(nor);
 			}
 
-			float4 surface(in float4 projPos)
+			float4 surface(in float3 ray)
 			{
-				 projPos.xy /= projPos.w;
-				 projPos.xy = projPos * 2.0 - 1.0;
-
-				 float3 rayDirection = normalize(_CamRight * projPos.x +
-				 								 _CamUp * projPos.y +
-												 _CamForward * _FocalLength);
-
-				 float3 pos = _CamPos + float3(projPos.xy, 0.);
-				 float dist = march( pos, rayDirection );
-				 float3 sPos = pos + rayDirection * dist;
+				 float dist = march( _CamPos + ray.xyz * 0.01, ray );
+				 float3 sPos = _CamPos + ray * dist;
 				 float3 nor = calcNormal(sPos);
 
 				 float3 col = nor * 0.5 + 0.5;
-				 col *= (.9+dot(rayDirection,nor));
+				 col *= (.9+dot(ray,nor));
 
 				 col = lerp(col, 0., saturate(dist/10.) );
 
@@ -101,7 +104,7 @@
 
             float4 frag (v2f i) : SV_Target
             {
-                float4 col = surface(float4(i.uv, 0., i.vertex.w));
+                float4 col = surface(i.ray);
                 return col;
             }
             ENDCG
