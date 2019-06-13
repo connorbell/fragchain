@@ -40,6 +40,8 @@
             sampler2D _MainTex;
             sampler2D _LastTex;
 
+			float _Scale;
+
 			float3 blendSoftLight(float3 base, float3 blend) {
 				float3 s = step(0.5,blend);
 				return s * (sqrt(base)*(2.0*blend-1.0)+2.0*base*(1.0-blend)) + (1.-s)*(2.*base*blend+base*base*(1.0-2.0*blend));
@@ -48,7 +50,13 @@
             float4 frag (v2f i) : SV_Target
             {
                 float4 col = tex2D(_MainTex, i.uv);
-                float4 last = tex2D(_LastTex, i.uv);
+				float2 uv_c = i.uv * 2.0 - 1.0;
+				float l = length(uv_c) * _Scale;
+				float a = atan2(uv_c.x, uv_c.y) + 3.14159*0.5;
+				 
+				uv_c = float2(cos(a), sin(a) ) * l + .5;
+                uv_c.x = 1.- uv_c.x;
+				float4 last = tex2D(_LastTex, uv_c);
 				col.rgb = col + (blendSoftLight(col.rgb, last.rgb*1.5));
                 return col;
             }

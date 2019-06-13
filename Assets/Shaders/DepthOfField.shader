@@ -61,7 +61,7 @@
 				float depth = tex2D(_MainTex, uv).a;
     
 				//create the 1-D kernel
-				float sigma = lerp(0.1, 8., max(0., -.075 + depth*depth*2.0));
+				float sigma = lerp(0.1, 8., max(0., -.075 + depth*depth*.15));
 				float Z = .0;
 				for (int j = 0; j <= kSize; ++j)
 				{

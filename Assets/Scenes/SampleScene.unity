@@ -264,8 +264,8 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 42
-  m_fontSizeBase: 42
+  m_fontSize: 72
+  m_fontSizeBase: 72
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -281,7 +281,7 @@ MonoBehaviour:
   m_enableWordWrapping: 1
   m_wordWrappingRatios: 0.4
   m_overflowMode: 0
-  m_firstOverflowCharacterIndex: 5
+  m_firstOverflowCharacterIndex: 0
   m_linkedTextComponent: {fileID: 0}
   m_isLinkedTextComponent: 0
   m_isTextTruncated: 0
@@ -399,7 +399,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 20, y: 5}
+  m_SizeDelta: {x: 121.9, y: 5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &456673843
 GameObject:
@@ -520,6 +520,11 @@ MonoBehaviour:
   shader: {fileID: 4800000, guid: 0eab1d823a5876b42af7abc3acbfe8c6, type: 3}
   renderTexture: {fileID: 0}
   feedbackTexture: {fileID: 0}
+  midi1Strength: 8
+  midi2Strength: 8
+  midi3Strength: 2
+  midi4Strength: 2
+  maxDepth: 10
 --- !u!4 &576052825
 Transform:
   m_ObjectHideFlags: 0
@@ -618,7 +623,7 @@ MonoBehaviour:
   - {fileID: 2043858954}
   - {fileID: 1905971190}
   - {fileID: 1462948373}
-  baseResolution: {x: 256, y: 256}
+  baseResolution: {x: 512, y: 512}
   destMaterial: {fileID: 2100000, guid: 06cb4806e3704b04587f9068718ae362, type: 2}
   capture: 0
   duration: 1.570795
@@ -811,7 +816,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1905971189}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 02214a3764a1f437496a95014ce81e94, type: 3}
+  m_Script: {fileID: 11500000, guid: f1071f96b0ada6741b5a3b60a36b1419, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Mat: {fileID: 0}
@@ -820,6 +825,7 @@ MonoBehaviour:
   shader: {fileID: 4800000, guid: 77d47d5595a229b4ca1a87cb50f2d4be, type: 3}
   renderTexture: {fileID: 0}
   feedbackTexture: {fileID: 0}
+  feedbackScale: 0.495
 --- !u!4 &1905971191
 Transform:
   m_ObjectHideFlags: 0
@@ -884,5 +890,5 @@ MonoBehaviour:
   renderTexture: {fileID: 0}
   feedbackTexture: {fileID: 0}
   mask: {fileID: 8400000, guid: 0ba50787762f04ff6b1bbd921b7a62c4, type: 2}
-  maskColor: {r: 1, g: 1, b: 1, a: 0}
+  maskColor: {r: 1, g: 1, b: 1, a: 1}
   tolerance: 1

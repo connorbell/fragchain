@@ -94,7 +94,7 @@ float map(float3 pos) {
 
 		pos += displacement * scale;
 
-		phase = float(i)*0.5 + distFromCam;
+		phase = float(i)*0.5 + distFromCam + _Time.y;
 		pR(pos.xz, -_Midi1 - distFromCam + float(i)*0.5 + sin(phase)*_Midi3);
 		pR(pos.zy, _Midi2 + distFromCam + float(i)*0.5 + cos(phase)*_Midi4);
 

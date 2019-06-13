@@ -31,8 +31,10 @@
 			float3 _CamUp;
 			float3 _CamPos;
 			float _FocalLength;	
-			#include "DistanceFields.cginc"
+			float _MaxDist;
 
+			#include "DistanceFields.cginc"
+			
             struct appdata
             {
                 float4 vertex : POSITION;
@@ -68,13 +70,17 @@
 
 			float march(in float3 pos, in float3 rd)
 			{
-				const int steps = 30;
+				const int steps = 40;
+				
 				float depth = 0.;
 
 				for (int i = 0; i < steps; i++)
 				{
 					float dist = map(pos + rd * depth);
 					depth += dist;
+
+					if (depth > _MaxDist)
+						break;
 				}
 				return depth;
 			}
@@ -95,7 +101,7 @@
 				 float3 nor = calcNormal(sPos);
 
 				 float3 col = nor * 0.5 + 0.5;
-				 col *= (.9+dot(ray,nor));
+				 col *= (.85+dot(ray,nor));
 
 				 col = lerp(col, 0., saturate(dist/10.) );
 
