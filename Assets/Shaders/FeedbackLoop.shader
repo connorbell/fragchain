@@ -41,6 +41,7 @@
             sampler2D _LastTex;
 
 			float _Scale;
+			float _FeedbackFactor;
 
 			float3 blendSoftLight(float3 base, float3 blend) {
 				float3 s = step(0.5,blend);
@@ -57,7 +58,7 @@
 				uv_c = float2(cos(a), sin(a) ) * l + .5;
                 uv_c.x = 1.- uv_c.x;
 				float4 last = tex2D(_LastTex, uv_c);
-				col.rgb = col + (blendSoftLight(col.rgb, last.rgb*1.5));
+				col.rgb = col + (blendSoftLight(col.rgb, last.rgb*_FeedbackFactor));
                 return col;
             }
             ENDCG

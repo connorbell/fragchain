@@ -32,6 +32,7 @@
 			float3 _CamPos;
 			float _FocalLength;	
 			float _MaxDist;
+			float4x4 _CamToWorld;
 
 			#include "DistanceFields.cginc"
 			
@@ -62,16 +63,17 @@
                 v2f o;
                 o.vertex = UnityObjectToClipPos(v.vertex);
 
-				float3x3 cam = setCamera(_CamPos, _CamPos + _CamForward, 0.);
-				o.ray.xyz = mul(normalize(float3(v.uv,1.)), cam);
+				float2 uv = v.uv * 2.0 - 1.0;
+
+				o.ray.xyz = normalize(_CamRight * uv.x + _CamUp * uv.y + _CamForward * _FocalLength);
                 o.uv = v.uv;
                 return o;
             }
 
 			float march(in float3 pos, in float3 rd)
 			{
-				const int steps = 40;
-				
+				const int steps = 30;
+				const float minDist = 0.001;
 				float depth = 0.;
 
 				for (int i = 0; i < steps; i++)
@@ -79,7 +81,7 @@
 					float dist = map(pos + rd * depth);
 					depth += dist;
 
-					if (depth > _MaxDist)
+					if (depth > _MaxDist || dist < minDist)
 						break;
 				}
 				return depth;
@@ -93,15 +95,30 @@
         							map(pos+eps.yyx) - map(pos-eps.yyx) );
 				return normalize(nor);
 			}
+			float calcAO( in float3 pos, in float3 nor )
+			{
+				float occ = 0.0;
+				float sca = 1.0;
+				for( int i=0; i<4; i++ )
+				{
+					float hr = 0.01 + 0.02*float(i)/4.0;
+					float3 aopos =  nor * hr + pos;
+					float dd = map( aopos );
+					occ += -(dd-hr)*sca;
+					sca *= .95;
+				}
+				return clamp( 1.0 - 3.0*occ, 0.0, 1.0 );    
+			}
 
 			float4 surface(in float3 ray)
 			{
-				 float dist = march( _CamPos + ray.xyz * 0.01, ray );
-				 float3 sPos = _CamPos + ray * dist;
+				 float dist = march( _CamPos, ray.xyz );
+				 float3 sPos = _CamPos + ray.xyz * dist;
 				 float3 nor = calcNormal(sPos);
-
+				 nor.g = 0.;
 				 float3 col = nor * 0.5 + 0.5;
-				 col *= (.85+dot(ray,nor));
+				 float ao = calcAO(sPos, nor);
+				 col *= (.5+dot(ray,nor)) * ao;
 
 				 col = lerp(col, 0., saturate(dist/10.) );
 

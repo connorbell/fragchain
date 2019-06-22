@@ -53,7 +53,7 @@
                 float similarity = abs(length(mask) - length(_MaskColor));
                 float m = 1. - smoothstep(0.0, _MaskTolerance, similarity);
 
-                fixed4 output = lerp(col, saturate(1.-col), saturate(step(0.1,length(mask))));
+                fixed4 output = lerp(col, mask, saturate(step(0.1,length(mask))));
  
                 return output;
             }

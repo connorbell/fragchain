@@ -1,4 +1,6 @@
-﻿float3 mod(float3 x, float3 y)
+﻿float _T;
+
+float3 mod(float3 x, float3 y)
 {
 	return x - y * floor(x / y);
 }
@@ -10,6 +12,11 @@ float sphere(in float3 p, in float r)
 
 void pR(inout float2 p, float a) {
 	p = cos(a)*p + sin(a)*float2(p.y, -p.x);
+}
+
+float smin( float a, float b, float k ){
+    float h = clamp( 0.5+0.5*(b-a)/k, 0.0, 1.0 );
+    return lerp( b, a, h ) - k*h*(1.0-h);
 }
 
 #define TAU (2*PI)
@@ -71,39 +78,37 @@ float fIcosahedron(float3 p, float r) {
 		fGDFEnd
 }
 
-
 float map(float3 pos) {
 
 	float scale = .7;
 
-	float3 spacesize = float3(3., 4., 2.2);
+	float3 spacesize = 3.;
 	float res = 1e20;
 
-	float distFromCam = length(pos)*.14;
+	float distFromCam = length(pos)*_Midi6;
 	float3 idx = floor(pos.xyz / spacesize);
 
 	// Divide the space into cells
 	pos.xyz = mod(pos.xyz, spacesize) - spacesize * 0.5;
 
-	float3 displacement = float3(-1., -.5, -2.)*0.75;
+	float3 displacement = float3(-1., -.5, -2.)*_Midi5;
 
 	for (int i = 0; i < 8; i++) {
 		pos.xyz = abs(pos.xyz);
 
-		float phase = float(i)*0.25 + distFromCam * 2.;
-
 		pos += displacement * scale;
 
-		phase = float(i)*0.5 + distFromCam + _Time.y;
-		pR(pos.xz, -_Midi1 - distFromCam + float(i)*0.5 + sin(phase)*_Midi3);
-		pR(pos.zy, _Midi2 + distFromCam + float(i)*0.5 + cos(phase)*_Midi4);
+		float phase = float(i)*0.5 + distFromCam + _T*2.;
+		pR(pos.xz, -_Midi1 - distFromCam + float(i)*0.5 + sin(phase)*_Midi4);
+		pR(pos.yz, _Midi3 + distFromCam + float(i)*0.5 + cos(phase)*_Midi4);
 
-		scale *= 0.6;
+		scale *= 0.666;
 
-		float octa = fIcosahedron(pos, scale);
+		float octa = fOctahedron(pos, scale);
 
 		res = min(res, octa);
 	}
+    res = smin(res, res, sin(-0.5-distFromCam*20.+_T*2.) * _Midi7);
 
 	return res;
 }

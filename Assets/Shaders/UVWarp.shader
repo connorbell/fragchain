@@ -1,4 +1,4 @@
-﻿Shader "Hidden/Vignette"
+﻿Shader "Hidden/UVWarp"
 {
     Properties
     {
@@ -16,6 +16,7 @@
             #pragma fragment frag
 
             #include "UnityCG.cginc"
+			#include "Noise.cginc"
 
             struct appdata
             {
@@ -38,14 +39,22 @@
             }
 
             sampler2D _MainTex;
+			float _Amp;			float _T;
+
+void pR(inout float2 p, float a) {
+	p = cos(a)*p + sin(a)*float2(p.y, -p.x);
+}
+
 
             fixed4 frag (v2f i) : SV_Target
             {
-                fixed4 col = tex2D(_MainTex, i.uv);
-				float2 uv_c = i.uv * 2.0 - 1.0;
-				col.rgb = lerp(.0, col, 1.-smoothstep(0.,1.,length(uv_c)*0.8));
-
-                return col;
+				float2 uv = i.uv;
+				float2 np = uv * 2. - 1.;
+				pR(np, _T*2. + length(np)*4.);
+				uv.x += fbm(np)*_Amp-_Amp;
+				uv.y += fbm(np+10.5)*_Amp-_Amp;
+                fixed4 col = tex2D(_MainTex, uv);
+				return col;
             }
             ENDCG
         }

@@ -16,8 +16,11 @@ public class ShaderPass : MonoBehaviour
 	Shader shader;
 	
     public RenderTexture renderTexture;
+
     [HideInInspector]
     public RenderTexture feedbackTexture;
+
+    public List<FloatUniform> uniforms;
 
     private Vector2 finalResolution;
     protected virtual void UpdateUniforms()
@@ -56,6 +59,11 @@ public class ShaderPass : MonoBehaviour
     public void Blit(Texture source)
     {
         UpdateUniforms();
+        
+        foreach (FloatUniform uni in uniforms)
+        {
+            Mat.SetFloat(uni.UniformName, uni.Val);
+        }
 
         Mat.SetVector("_Texel", renderTexture.texelSize);
       
