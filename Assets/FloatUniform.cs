@@ -12,4 +12,9 @@ public class FloatUniform
     public float DefaultVal = 0.0f;
 
     public Vector2 range;
+
+    public void UpdateWithValue(float value)
+    {
+        Val = Mathf.Lerp(range.x, range.y, value);
+    }
 }

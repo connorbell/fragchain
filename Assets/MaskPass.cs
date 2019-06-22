@@ -8,13 +8,9 @@ public class MaskPass : ShaderPass
     RenderTexture mask;
     [SerializeField]
     Color maskColor;
-    [SerializeField]
-    float tolerance = 1f;
-    
     protected override void UpdateUniforms()
     {
         Mat.SetTexture("_MaskTex", mask);
         Mat.SetColor("_MaskColor", maskColor);
-        Mat.SetFloat("_MaskTolerance", tolerance);
     }
 }

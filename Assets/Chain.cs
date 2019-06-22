@@ -166,6 +166,9 @@ public class Chain : MonoBehaviour
     }
     void Knob(MidiChannel channel, int knobNumber, float knobValue)
     {
-        shaders[currentMidiShaderIndex].uniforms[knobNumber-1].Val = knobValue;
+        if (knobNumber <= shaders[currentMidiShaderIndex].uniforms.Count)
+        {
+            shaders[currentMidiShaderIndex].uniforms[knobNumber-1].UpdateWithValue(knobValue);
+        }
     }
 }

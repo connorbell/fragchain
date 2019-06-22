@@ -746,39 +746,35 @@ MonoBehaviour:
   - UniformName: _Midi1
     Val: 0
     DefaultVal: 0.5
-    range: {x: 0, y: 0}
+    range: {x: 0, y: 7}
   - UniformName: _Midi2
     Val: 0
     DefaultVal: 0
-    range: {x: 0, y: 0}
+    range: {x: 0, y: 7}
   - UniformName: _Midi3
     Val: 0
     DefaultVal: 0
-    range: {x: 0, y: 0}
+    range: {x: 0, y: 7}
   - UniformName: _Midi4
     Val: 0
     DefaultVal: 0
-    range: {x: 0, y: 0}
+    range: {x: 0, y: 4}
   - UniformName: _Midi5
     Val: 0
     DefaultVal: 0
-    range: {x: 0, y: 0}
+    range: {x: 0, y: 4}
   - UniformName: _Midi6
     Val: 0
     DefaultVal: 0
-    range: {x: 0, y: 0}
+    range: {x: 0, y: 4}
   - UniformName: _Midi7
     Val: 0
     DefaultVal: 0
-    range: {x: 0, y: 0}
+    range: {x: 0, y: 4}
   - UniformName: _Midi8
     Val: 0
     DefaultVal: 0
-    range: {x: 0, y: 0}
-  midi1Strength: 8
-  midi2Strength: 8
-  midi3Strength: 2
-  midi4Strength: 2
+    range: {x: 0, y: 4}
   maxDepth: 10
   focalLength: 3
 --- !u!4 &576052825
@@ -843,7 +839,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 852409837}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &852409835
 GameObject:
@@ -901,8 +897,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 576052825}
-  - {fileID: 2043858953}
   - {fileID: 698437404}
+  - {fileID: 2043858953}
   - {fileID: 1905971191}
   - {fileID: 1462948374}
   m_Father: {fileID: 0}
@@ -943,7 +939,11 @@ MonoBehaviour:
   shader: {fileID: 4800000, guid: 0e22ab098ef0a9c4a9d220c7987f658e, type: 3}
   renderTexture: {fileID: 0}
   feedbackTexture: {fileID: 0}
-  uniforms: []
+  uniforms:
+  - UniformName: _Strength
+    Val: 0
+    DefaultVal: 0.666
+    range: {x: 0, y: 0}
 --- !u!4 &1462948374
 Transform:
   m_ObjectHideFlags: 0
@@ -1077,7 +1077,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1905971189}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f1071f96b0ada6741b5a3b60a36b1419, type: 3}
+  m_Script: {fileID: 11500000, guid: 02214a3764a1f437496a95014ce81e94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Mat: {fileID: 0}
@@ -1086,9 +1086,15 @@ MonoBehaviour:
   shader: {fileID: 4800000, guid: 77d47d5595a229b4ca1a87cb50f2d4be, type: 3}
   renderTexture: {fileID: 0}
   feedbackTexture: {fileID: 0}
-  uniforms: []
-  feedbackScale: 0.495
-  feedbackFactor: 2
+  uniforms:
+  - UniformName: _FeedbackFactor
+    Val: 0
+    DefaultVal: 2
+    range: {x: 0, y: 4}
+  - UniformName: _Scale
+    Val: 0
+    DefaultVal: 0.5
+    range: {x: 0, y: 1}
 --- !u!4 &1905971191
 Transform:
   m_ObjectHideFlags: 0
@@ -1132,7 +1138,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 852409837}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2043858954
 MonoBehaviour:
@@ -1152,7 +1158,10 @@ MonoBehaviour:
   shader: {fileID: 4800000, guid: 8698f533f840345469b8960a142387c8, type: 3}
   renderTexture: {fileID: 0}
   feedbackTexture: {fileID: 0}
-  uniforms: []
+  uniforms:
+  - UniformName: _MaskTolerance
+    Val: 0
+    DefaultVal: 1
+    range: {x: 0, y: 1}
   mask: {fileID: 8400000, guid: 0ba50787762f04ff6b1bbd921b7a62c4, type: 2}
   maskColor: {r: 1, g: 1, b: 1, a: 1}
-  tolerance: 1

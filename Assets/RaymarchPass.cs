@@ -6,18 +6,6 @@ using MidiJack;
 public class RaymarchPass : ShaderPass
 {
     [SerializeField]
-    float midi1Strength = 1.0f;
-
-    [SerializeField]
-    float midi2Strength = 1.0f;
-
-    [SerializeField]
-    float midi3Strength = 1.0f;
-
-    [SerializeField]
-    float midi4Strength = 1.0f;
-
-    [SerializeField]
     float maxDepth = 10f;
 
     [SerializeField]

@@ -49,6 +49,11 @@ public class ShaderPass : MonoBehaviour
         {
             feedbackTexture = new RenderTexture((int)(resolution.x * Scale), (int)(resolution.y * Scale), 24);
         }
+
+        foreach (FloatUniform uni in uniforms)
+        {
+            uni.Val = uni.DefaultVal;
+        }
     }
 
 	public void SetTexture(string uniform, Texture tex)

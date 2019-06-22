@@ -29,6 +29,8 @@
                 float4 vertex : SV_POSITION;
             };
 
+            float _Strength;
+
             v2f vert (appdata v)
             {
                 v2f o;
@@ -43,7 +45,7 @@
             {
                 fixed4 col = tex2D(_MainTex, i.uv);
 				float2 uv_c = i.uv * 2.0 - 1.0;
-				col.rgb = lerp(.0, col, 1.-smoothstep(0.,1.,length(uv_c)*0.8));
+				col.rgb = lerp(.0, col, 1.-smoothstep(0.,1.,length(uv_c)*_Strength));
 
                 return col;
             }
