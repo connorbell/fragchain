@@ -880,7 +880,7 @@ MonoBehaviour:
   - {fileID: 2043858954}
   - {fileID: 1905971190}
   - {fileID: 1462948373}
-  baseResolution: {x: 1024, y: 1024}
+  baseResolution: {x: 256, y: 256}
   destMaterial: {fileID: 2100000, guid: 06cb4806e3704b04587f9068718ae362, type: 2}
   duration: 3.14159
   fps: 30

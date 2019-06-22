@@ -44,6 +44,8 @@ public class Chain : MonoBehaviour
         {
             shaderPass.InitWithResolution(baseResolution);
         }
+
+        MidiMaster.knobDelegate += Knob;
         
         if (preset)
         {
@@ -150,11 +152,6 @@ public class Chain : MonoBehaviour
     {
         shaders[0].Blit(null);
 
-        if (!preset)
-        {
-            UpdateUniformsWithMidi();
-        }
-
         for (int i = 1; i < shaders.Count; i++)
         {
             shaders[i].SetTexture("_MainTex", shaders[i - 1].renderTexture);
@@ -165,5 +162,10 @@ public class Chain : MonoBehaviour
         {
             destMaterial.mainTexture = shaders[shaders.Count - 1].renderTexture;
         }
+    }
+    void Knob(MidiChannel channel, int knobNumber, float knobValue)
+    {
+        shaders[currentMidiShaderIndex].uniforms[knobNumber-1].Val = knobValue;
+            Debug.Log("Knob: " + knobNumber + "," + knobValue);
     }
 }
