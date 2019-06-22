@@ -16,23 +16,23 @@ MonoBehaviour:
   - shaderName: RaymarchPass
     uniforms:
     - UniformName: _Midi1
-      Val: 1
+      Val: 0.2047244
       DefaultVal: 0.5
       range: {x: 0, y: 0}
     - UniformName: _Midi2
-      Val: 0.42519686
+      Val: 0.9212598
       DefaultVal: 0
       range: {x: 0, y: 0}
     - UniformName: _Midi3
-      Val: 0.8425197
+      Val: 0.28346455
       DefaultVal: 0
       range: {x: 0, y: 0}
     - UniformName: _Midi4
-      Val: 0.6614173
+      Val: 0.2519685
       DefaultVal: 0
       range: {x: 0, y: 0}
     - UniformName: _Midi5
-      Val: 0.63779527
+      Val: 0.4094488
       DefaultVal: 0
       range: {x: 0, y: 0}
     - UniformName: _Midi6
@@ -40,7 +40,7 @@ MonoBehaviour:
       DefaultVal: 0
       range: {x: 0, y: 0}
     - UniformName: _Midi7
-      Val: 0.07874016
+      Val: 0.031496063
       DefaultVal: 0
       range: {x: 0, y: 0}
     - UniformName: _Midi8
@@ -50,8 +50,14 @@ MonoBehaviour:
   - shaderName: DepthOfField
     uniforms: []
   - shaderName: MaskPass
-    uniforms: []
+    uniforms:
+    - UniformName: _Tolerance
+      Val: 0
+      DefaultVal: 1
+      range: {x: 0, y: 1}
   - shaderName: FeedbackLoop
     uniforms: []
   - shaderName: Vignette
     uniforms: []
+  cameraPos: {x: 0, y: 0, z: 0}
+  cameraRotation: {x: 0.29005766, y: -0.0808764, z: 0.25611743, w: 0.9185475}

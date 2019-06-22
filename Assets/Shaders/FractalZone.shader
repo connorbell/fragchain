@@ -25,7 +25,10 @@
 			float _Midi6;
 			float _Midi7;
 			float _Midi8;
-		          sampler2D _MainTex;
+		
+			float _Aspect;
+
+			sampler2D _MainTex;
 			float3 _CamForward;
 			float3 _CamRight;
 			float3 _CamUp;
@@ -63,8 +66,10 @@
                 v2f o;
                 o.vertex = UnityObjectToClipPos(v.vertex);
 
-				float2 uv = v.uv * 2.0 - 1.0;
-
+				float2 uv = v.uv;
+				uv = uv * 2.0 - 1.0;
+				uv.x *= _Aspect;
+				
 				o.ray.xyz = normalize(_CamRight * uv.x + _CamUp * uv.y + _CamForward * _FocalLength);
                 o.uv = v.uv;
                 return o;

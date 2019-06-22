@@ -675,7 +675,7 @@ Camera:
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 60
-  orthographic: 0
+  orthographic: 1
   orthographic size: 5
   m_Depth: -1
   m_CullingMask:
@@ -880,13 +880,14 @@ MonoBehaviour:
   - {fileID: 2043858954}
   - {fileID: 1905971190}
   - {fileID: 1462948373}
-  baseResolution: {x: 256, y: 256}
+  baseResolution: {x: 256, y: 128}
   destMaterial: {fileID: 2100000, guid: 06cb4806e3704b04587f9068718ae362, type: 2}
   duration: 3.14159
   fps: 30
   filename: screen
   currentMidiShaderIndex: 0
   preset: {fileID: 11400000, guid: 04412a1e7c2abda48b812820ea9a28d3, type: 2}
+  displayQuad: {fileID: 1702460243}
   switchKey: 32
 --- !u!4 &852409837
 Transform:

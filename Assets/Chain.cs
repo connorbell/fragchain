@@ -30,6 +30,9 @@ public class Chain : MonoBehaviour
     [SerializeField]
     Preset preset;
 
+    [SerializeField]
+    Transform displayQuad;
+
     private int frameNumber = 0;
 
     [SerializeField]
@@ -37,7 +40,8 @@ public class Chain : MonoBehaviour
 
     private int totalFrames;
     private bool isCapturing = false;
-    
+    private float aspect = 1f;
+
     void Start()
     {
         foreach (ShaderPass shaderPass in shaders)
@@ -45,6 +49,9 @@ public class Chain : MonoBehaviour
             shaderPass.InitWithResolution(baseResolution);
         }
 
+        aspect = (float)baseResolution.x / baseResolution.y;
+        Shader.SetGlobalFloat("_Aspect", aspect);
+        displayQuad.localScale = new Vector3(displayQuad.localScale.x, displayQuad.localScale.y / aspect, displayQuad.localScale.z);
         MidiMaster.knobDelegate += Knob;
         
         if (preset)
@@ -54,13 +61,16 @@ public class Chain : MonoBehaviour
             {
                 if (index < shaders.Count)
                 {
-                    for (int i = 0; i < shaders[index].uniforms.Count; i++)
+                    for (int i = 0; i < shaders[index].uniforms.Count && i < pass.uniforms.Count; i++)
                     {
                         shaders[index].uniforms[i].Val = pass.uniforms[i].Val;
                     }
                 }
                 index++;
             }
+
+            Camera.main.transform.position = preset.cameraPos;
+            Camera.main.transform.rotation = preset.cameraRotation;
         }
     }
 
@@ -87,15 +97,6 @@ public class Chain : MonoBehaviour
         Preset.CreatePreset(passes);
     }
 
-    void UpdateUniformsWithMidi()
-    {
-        for (int i = 0; i < shaders[currentMidiShaderIndex].uniforms.Count; i++)
-        {
-            float v = MidiMaster.GetKnob(MidiJack.MidiChannel.All, i+1);
-            shaders[currentMidiShaderIndex].uniforms[i].Val = v;
-        }
-    }
-
     IEnumerator Render()
     {
         isCapturing = true;
@@ -105,7 +106,7 @@ public class Chain : MonoBehaviour
         while(frameNumber <= totalFrames)
         {
             float time = ((float)frameNumber / totalFrames) * duration;
-            Shader.SetGlobalFloat("_T", sTime + time);
+            Shader.SetGlobalFloat("_T", sTime + time); 
 
             RunChain();
 
@@ -166,6 +167,5 @@ public class Chain : MonoBehaviour
     void Knob(MidiChannel channel, int knobNumber, float knobValue)
     {
         shaders[currentMidiShaderIndex].uniforms[knobNumber-1].Val = knobValue;
-            Debug.Log("Knob: " + knobNumber + "," + knobValue);
     }
 }
