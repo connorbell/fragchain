@@ -139,7 +139,11 @@ public class Chain : MonoBehaviour
             bytes = tex.EncodeToPNG();
             int padding = (int)Mathf.Floor(Mathf.Log10((float)totalFrames) + 1);
 
-            string path = Application.dataPath + Path.DirectorySeparatorChar + ".." + Path.DirectorySeparatorChar + filename + "_" + frameNumber.ToString().PadLeft(padding, '0') + ".png";
+            string path = Application.dataPath + Path.DirectorySeparatorChar 
+                                               + ".." + Path.DirectorySeparatorChar
+                                               + "Renders" + Path.DirectorySeparatorChar 
+                                               + filename + "_" + frameNumber.ToString().PadLeft(padding, '0') + ".png";
+
             File.WriteAllBytes(path, bytes);
             Debug.Log("saved png to " + path);
 
