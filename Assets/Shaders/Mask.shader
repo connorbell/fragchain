@@ -49,12 +49,9 @@
             {
                 fixed4 col = tex2D(_MainTex, i.uv);
                 fixed4 mask = tex2D(_MaskTex, i.uv);
-
-                float similarity = abs(length(mask) - length(_MaskColor));
-                float m = 1. - smoothstep(0.0, _MaskTolerance, similarity);
-
-                fixed4 output = lerp(col, mask, saturate(step(0.1,length(mask))));
- 
+				float4 output = col;
+				output.rgb = lerp(col.rgb, mask.rgb, step(0.1,length(mask)));
+				output.rgb = lerp(output.rgb, col.rgb, mask.a);
                 return output;
             }
             ENDCG

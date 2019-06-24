@@ -10,43 +10,43 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 39a0fdef93266fe4095cc48064bfc33a, type: 3}
-  m_Name: NewScripableObject
+  m_Name: 105.5317
   m_EditorClassIdentifier: 
   passUniforms:
   - shaderName: RaymarchPass
     uniforms:
     - UniformName: _Midi1
-      Val: 4.2440944
+      Val: 1.5433071
       DefaultVal: 0.5
       range: {x: 0, y: 7}
     - UniformName: _Midi2
-      Val: 4.4645667
+      Val: 5.622047
       DefaultVal: 0
       range: {x: 0, y: 7}
     - UniformName: _Midi3
-      Val: 4.07874
+      Val: 0.27559054
       DefaultVal: 0
       range: {x: 0, y: 7}
     - UniformName: _Midi4
-      Val: 0.09448819
+      Val: 0.88188976
       DefaultVal: 0
       range: {x: 0, y: 4}
     - UniformName: _Midi5
-      Val: 0.31496063
+      Val: 0.6929134
       DefaultVal: 0
       range: {x: 0, y: 4}
     - UniformName: _Midi6
-      Val: 0.6614173
+      Val: 0.1496063
       DefaultVal: 0
-      range: {x: 0, y: 4}
+      range: {x: 0, y: 0.5}
     - UniformName: _Midi7
-      Val: 0.12598425
+      Val: 0.5669291
       DefaultVal: 0
-      range: {x: 0, y: 4}
+      range: {x: 0, y: 1}
     - UniformName: _Midi8
-      Val: 0.6535433
+      Val: 4.2204723
       DefaultVal: 0
-      range: {x: 0, y: 4}
+      range: {x: 0, y: 8}
   - shaderName: DepthOfField
     uniforms: []
   - shaderName: MaskPass
@@ -71,5 +71,5 @@ MonoBehaviour:
       Val: 0.666
       DefaultVal: 0.666
       range: {x: 0, y: 0}
-  cameraPos: {x: 1.49, y: -0.49, z: 2.38}
-  cameraRotation: {x: -0.04423923, y: 0.3764679, z: -0.1331076, w: 0.91574955}
+  cameraPos: {x: 1.21, y: 0.29, z: 4.09}
+  cameraRotation: {x: 0.041608468, y: 0.30104575, z: -0.007306523, w: 0.9526735}

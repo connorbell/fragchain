@@ -33,6 +33,9 @@ public class Chain : MonoBehaviour
     [SerializeField]
     Transform displayQuad;
 
+    [SerializeField]
+    List<RenderTexture> otherCamRenderTextures;
+
     private int frameNumber = 0;
 
     [SerializeField]
@@ -49,6 +52,11 @@ public class Chain : MonoBehaviour
             shaderPass.InitWithResolution(baseResolution);
         }
 
+        foreach (RenderTexture rt in otherCamRenderTextures)
+        {
+            rt.width = (int)baseResolution.x;
+            rt.height = (int)baseResolution.y;
+        }
         aspect = (float)baseResolution.x / baseResolution.y;
         Shader.SetGlobalFloat("_Aspect", aspect);
         displayQuad.localScale = new Vector3(displayQuad.localScale.x, displayQuad.localScale.y / aspect, displayQuad.localScale.z);
@@ -80,12 +88,23 @@ public class Chain : MonoBehaviour
         StartCoroutine(Render());
     }
 
-    [ContextMenu("Save Preset")]
-    void SavePreset()
+    [ContextMenu("Save new Preset")]
+    void SaveNewPreset()
+    {
+        SavePreset(Time.time.ToString() + ".asset");
+    }
+
+    [ContextMenu("Update Loaded Preset")]
+    void UpdatePreset()
+    {
+        SavePreset(preset.name + ".asset");
+    }
+
+    void SavePreset(string fileName)
     {
         List<PassUniforms> passes = new List<PassUniforms>();
 
-        foreach(ShaderPass shaderPass in shaders)
+        foreach (ShaderPass shaderPass in shaders)
         {
             PassUniforms info = new PassUniforms();
             info.shaderName = shaderPass.name;
@@ -93,9 +112,10 @@ public class Chain : MonoBehaviour
             info.uniforms = shaderPass.uniforms;
             passes.Add(info);
         }
-        
-        Preset.CreatePreset(passes);
+
+        Preset.CreatePreset(passes, fileName);
     }
+
 
     IEnumerator Render()
     {
@@ -103,7 +123,7 @@ public class Chain : MonoBehaviour
         totalFrames = (int)(duration * fps);
         float sTime = Time.time;
 
-        while(frameNumber <= totalFrames)
+        while(frameNumber < totalFrames)
         {
             float time = ((float)frameNumber / totalFrames) * duration;
             Shader.SetGlobalFloat("_T", sTime + time); 
@@ -117,8 +137,9 @@ public class Chain : MonoBehaviour
 
             byte[] bytes;
             bytes = tex.EncodeToPNG();
+            int padding = (int)Mathf.Floor(Mathf.Log10((float)totalFrames) + 1);
 
-            string path = Application.dataPath + Path.DirectorySeparatorChar + ".." + Path.DirectorySeparatorChar + filename + "_" + frameNumber.ToString().PadLeft(2, '0') + ".png";
+            string path = Application.dataPath + Path.DirectorySeparatorChar + ".." + Path.DirectorySeparatorChar + filename + "_" + frameNumber.ToString().PadLeft(padding, '0') + ".png";
             File.WriteAllBytes(path, bytes);
             Debug.Log("saved png to " + path);
 

@@ -52,15 +52,6 @@
 				float4 ray : TEXCOORD1;
             };
 
-			float3x3 setCamera( in float3 ro, in float3 ta, float cr )
-			{
-				float3 cw = normalize(ta-ro);
-				float3 cp = float3(sin(cr), cos(cr),0.0);
-				float3 cu = normalize( cross(cw,cp) );
-				float3 cv = normalize( cross(cu,cw) );
-				return float3x3( cu, cv, cw );
-			}
-
             v2f vert (appdata v)
             {
                 v2f o;
@@ -77,7 +68,7 @@
 
 			float march(in float3 pos, in float3 rd)
 			{
-				const int steps = 30;
+				const int steps = 80;
 				const float minDist = 0.001;
 				float depth = 0.;
 
@@ -120,10 +111,10 @@
 				 float dist = march( _CamPos, ray.xyz );
 				 float3 sPos = _CamPos + ray.xyz * dist;
 				 float3 nor = calcNormal(sPos);
-				 nor.g = 0.;
+				 //nor.g = 0.;
 				 float3 col = nor * 0.5 + 0.5;
 				 float ao = calcAO(sPos, nor);
-				 col *= (.5+dot(ray,nor)) * ao;
+				 col *= (_Midi4+dot(ray,nor)) * ao;
 
 				 col = lerp(col, 0., saturate(dist/10.) );
 

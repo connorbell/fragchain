@@ -80,9 +80,10 @@ float fIcosahedron(float3 p, float r) {
 
 float map(float3 pos) {
 
-	float scale = .7;
+	float3 spacesize = float3(3., 3.5, 3.);
 
-	float3 spacesize = 3.;
+	float scale = spacesize*0.25;
+
 	float res = 1e20;
 
 	float distFromCam = length(pos)*_Midi6;
@@ -91,7 +92,7 @@ float map(float3 pos) {
 	// Divide the space into cells
 	pos.xyz = mod(pos.xyz, spacesize) - spacesize * 0.5;
 
-	float3 displacement = float3(-1., -.5, -2.)*_Midi5;
+	float3 displacement = float3(-.5, -.25, -1.)*_Midi5;
 
 	for (int i = 0; i < 8; i++) {
 		pos.xyz = abs(pos.xyz);
@@ -99,16 +100,16 @@ float map(float3 pos) {
 		pos += displacement * scale;
 
 		float phase = float(i)*0.5 + distFromCam + _T*2.;
-		pR(pos.xz, -_Midi1 - distFromCam + float(i)*0.5 + sin(phase)*_Midi4);
-		pR(pos.yz, _Midi3 + distFromCam + float(i)*0.5 + cos(phase)*_Midi4);
+		pR(pos.xz, -_Midi1 - distFromCam + float(i)*0.5 + sin(phase)*_Midi3);
+		pR(pos.yz, _Midi2 + distFromCam + float(i)*0.5 + cos(phase)*_Midi3);
 
-		scale *= 0.666;
+		scale *= .5;
 
 		float octa = fOctahedron(pos, scale);
 
 		res = min(res, octa);
 	}
-    res = smin(res, res, sin(-0.5-distFromCam*20.+_T*2.) * _Midi7);
+   // res = smin(res, res, sin(-0.5-distFromCam*20.+_T*2.) * _Midi7);
 
 	return res;
 }
