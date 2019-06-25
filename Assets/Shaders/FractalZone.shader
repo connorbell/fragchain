@@ -91,6 +91,8 @@
         							map(pos+eps.yyx) - map(pos-eps.yyx) );
 				return normalize(nor);
 			}
+
+			// Ambient Occlusion by Inigo Quilez https://www.shadertoy.com/view/Xds3zN
 			float calcAO( in float3 pos, in float3 nor )
 			{
 				float occ = 0.0;
@@ -106,6 +108,22 @@
 				return clamp( 1.0 - 3.0*occ, 0.0, 1.0 );    
 			}
 
+			// Softshadow by Inigo Quilez https://www.iquilezles.org/www/articles/rmshadows/rmshadows.htm
+			float softShadow( in float3 ro, in float3 rd, in float mint, in float tmax )
+			{
+				float res = 1.0;
+				float t = mint;
+				for( int i=0; i<20; i++ )
+				{
+					float h = map( ro + rd*t ).x;
+					res = min( res, 8.0*h/t );
+					t += clamp( h, 0., 0.1 );
+					if(t>tmax ) break;
+				}
+				return clamp( res, 0.0, 1.0 );
+
+			}
+
 			float4 surface(in float3 ray)
 			{
 				 float dist = march( _CamPos, ray.xyz );
@@ -114,8 +132,10 @@
 				 //nor.g = 0.;
 				 float3 col = nor * 0.5 + 0.5;
 				 float ao = calcAO(sPos, nor);
-				 col *= (_Midi4+dot(ray,nor)) * ao;
+				 float3 ref = reflect( ray, nor );
+				 float shadow = softShadow(sPos, ref, .1, .1);
 
+				 col *= (_Midi4+dot(ray,nor)) * ao * shadow;
 				 col = lerp(col, 0., saturate(dist/10.) );
 
 				 return float4(col, dist);
