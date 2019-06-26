@@ -19,6 +19,13 @@ float smin( float a, float b, float k ){
     return lerp( b, a, h ) - k*h*(1.0-h);
 }
 
+float sdBox( float3 p, float3 b )
+{
+	float3 d = abs(p) - b;
+	return length(max(d,0.0))
+			+ min(max(d.x,max(d.y,d.z)),0.0); // remove this line for an only partially signed sdf 
+}
+
 #define TAU (2*PI)
 #define PHI (1.618033988749895)
 #define GDFVector0 float3(1, 0, 0)
@@ -78,19 +85,34 @@ float fIcosahedron(float3 p, float r) {
 		fGDFEnd
 }
 
+float opS(float distA, float distB)
+{
+	return max(distA, -distB);
+}
+
 float map(float3 pos) {
 
 	float3 spacesize = float3(3., 3.5, 3.);
 
 	float scale = spacesize*0.25;
 
-	float res = 1e20;
-
-	float distFromCam = length(pos)*_Midi6;
+	float distFromCam = length(pos) * _Midi6;
 	float3 idx = floor(pos.xyz / spacesize);
+
+	float3 octaPos = pos;
+	float3 shapeOffset = float3(1.606299, 0.2834646, 0.496063);
+	octaPos += shapeOffset;
+
+	float3 shapeCellIndex = floor(octaPos / spacesize);
 
 	// Divide the space into cells
 	pos.xyz = mod(pos.xyz, spacesize) - spacesize * 0.5;
+	octaPos.xyz = mod(octaPos.xyz, spacesize) - spacesize * 0.5;
+
+	pR(octaPos.xz, sin(_T*2.)*0.1 );
+	pR(octaPos.yx, cos(_T*2.)*0.1);
+
+	float res = 1e20;
 
 	float3 displacement = float3(-.5, -.25, -1.)*_Midi5;
 
@@ -103,13 +125,29 @@ float map(float3 pos) {
 		pR(pos.xz, -_Midi1 - distFromCam + float(i)*0.5 + sin(phase)*_Midi3);
 		pR(pos.yz, _Midi2 + distFromCam + float(i)*0.5 + cos(phase)*_Midi3);
 
-		scale *= .5;
+		scale *= .55;
 
-		float octa = fOctahedron(pos, scale);
+		float octa = fIcosahedron(pos, scale);
 
 		res = min(res, octa);
 	}
-   // res = smin(res, res, sin(-0.5-distFromCam*20.+_T*2.) * _Midi7);
+
+	float octaScale = 0.3;
+	float octaDist = fIcosahedron(octaPos, octaScale);
+	float boxScale = octaScale*_Midi7;
+	
+	octaPos.x += sin(_Midi8+_T*2.)*0.05;
+
+	for (int i = 0; i < 3; i++)
+	{
+		boxScale *= 0.5;
+		float bs = boxScale * 6.;
+		octaDist = opS(octaDist, sdBox(mod(octaPos, float3(0., bs ,bs) ), float3(10., boxScale, boxScale)) );
+		octaDist = opS(octaDist, sdBox(mod(octaPos, float3(bs, 0. ,bs) ), float3(boxScale, 10., boxScale)) );
+		octaDist = opS(octaDist, sdBox(mod(octaPos, float3(bs, bs ,0.) ), float3(boxScale, boxScale, 10.)) );
+	}
+
+	res = smin(res, octaDist, 0.2047244);
 
 	return res;
 }

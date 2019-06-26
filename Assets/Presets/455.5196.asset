@@ -10,51 +10,45 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 39a0fdef93266fe4095cc48064bfc33a, type: 3}
-  m_Name: 194.5929
+  m_Name: 455.5196
   m_EditorClassIdentifier: 
   passUniforms:
   - shaderName: RaymarchPass
     uniforms:
     - UniformName: _Midi1
-      Val: 7
+      Val: 1.2677165
       DefaultVal: 0.5
       range: {x: 0, y: 7}
     - UniformName: _Midi2
-      Val: 1.0472441
+      Val: 1.5984251
       DefaultVal: 0
       range: {x: 0, y: 7}
     - UniformName: _Midi3
-      Val: 0.22047244
+      Val: 0.05511811
       DefaultVal: 0
       range: {x: 0, y: 7}
     - UniformName: _Midi4
-      Val: 0.8503937
+      Val: 0.8188976
       DefaultVal: 0
       range: {x: 0, y: 4}
     - UniformName: _Midi5
-      Val: 1.1338582
+      Val: 1.3543307
       DefaultVal: 0
       range: {x: 0, y: 4}
     - UniformName: _Midi6
-      Val: 0.26377952
+      Val: 0.2519685
       DefaultVal: 0
       range: {x: 0, y: 0.5}
     - UniformName: _Midi7
-      Val: 0
+      Val: 0.35433072
       DefaultVal: 0
       range: {x: 0, y: 1}
     - UniformName: _Midi8
-      Val: 4.4094486
+      Val: 0.496063
       DefaultVal: 0
       range: {x: 0, y: 8}
   - shaderName: DepthOfField
     uniforms: []
-  - shaderName: MaskPass
-    uniforms:
-    - UniformName: _MaskTolerance
-      Val: 0
-      DefaultVal: 1
-      range: {x: 0, y: 1}
   - shaderName: FeedbackLoop
     uniforms:
     - UniformName: _FeedbackFactor
@@ -62,7 +56,7 @@ MonoBehaviour:
       DefaultVal: 2
       range: {x: 0, y: 4}
     - UniformName: _Scale
-      Val: 0.496063
+      Val: 0.4975
       DefaultVal: 0.5
       range: {x: 0, y: 1}
   - shaderName: Vignette
@@ -71,5 +65,5 @@ MonoBehaviour:
       Val: 0.666
       DefaultVal: 0.666
       range: {x: 0, y: 0}
-  cameraPos: {x: 1.7, y: -0.23, z: -4.19}
-  cameraRotation: {x: -0.94237965, y: 0.1579444, z: 0.24201055, w: 0.16853829}
+  cameraPos: {x: 6.75, y: -2.9, z: -4.34}
+  cameraRotation: {x: 0.13201156, y: -0.18643913, z: -0.9662526, w: 0.11903483}

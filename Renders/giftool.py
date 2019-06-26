@@ -63,7 +63,7 @@ def main(inputFilename, outputFilename):
     print "Creating gif"
     outputGifFilename = outputFilename + ".gif"
     #os.system("magick.exe convert -resize 500X500 -delay 3 " + inputFilename + "*.png tmp.gif")
-    os.system("gifsicle --colors 32 --color-method blend-diversity --dither --lossy tmp.gif > " + "weweQ" + outputGifFilename)
+    os.system("gifsicle --colors 32 --color-method blend-diversity --dither --lossy tmp.gif > " + "dither_" + outputGifFilename)
     print "done!"
 
     #print "Making copies"

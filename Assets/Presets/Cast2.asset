@@ -1,0 +1,69 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 39a0fdef93266fe4095cc48064bfc33a, type: 3}
+  m_Name: Cast2
+  m_EditorClassIdentifier: 
+  passUniforms:
+  - shaderName: RaymarchPass
+    uniforms:
+    - UniformName: _Midi1
+      Val: 4.850394
+      DefaultVal: 0.5
+      range: {x: 0, y: 7}
+    - UniformName: _Midi2
+      Val: 5.1811023
+      DefaultVal: 0
+      range: {x: 0, y: 7}
+    - UniformName: _Midi3
+      Val: 0.05511811
+      DefaultVal: 0
+      range: {x: 0, y: 7}
+    - UniformName: _Midi4
+      Val: 0.8503937
+      DefaultVal: 0
+      range: {x: 0, y: 4}
+    - UniformName: _Midi5
+      Val: 1.3228346
+      DefaultVal: 0
+      range: {x: 0, y: 4}
+    - UniformName: _Midi6
+      Val: 0.05511811
+      DefaultVal: 0
+      range: {x: 0, y: 0.5}
+    - UniformName: _Midi7
+      Val: 0.43307087
+      DefaultVal: 0
+      range: {x: 0, y: 1}
+    - UniformName: _Midi8
+      Val: 5.984252
+      DefaultVal: 0
+      range: {x: 0, y: 8}
+  - shaderName: DepthOfField
+    uniforms: []
+  - shaderName: FeedbackLoop
+    uniforms:
+    - UniformName: _FeedbackFactor
+      Val: 2.2992127
+      DefaultVal: 2
+      range: {x: 0, y: 4}
+    - UniformName: _Scale
+      Val: 0.496063
+      DefaultVal: 0.5
+      range: {x: 0, y: 1}
+  - shaderName: Vignette
+    uniforms:
+    - UniformName: _Strength
+      Val: 0.666
+      DefaultVal: 0.666
+      range: {x: 0, y: 0}
+  cameraPos: {x: 6.33, y: -2.78, z: -4.34}
+  cameraRotation: {x: 0.06512587, y: -0.18106192, z: -0.97573185, w: 0.10451138}

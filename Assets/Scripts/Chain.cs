@@ -61,25 +61,8 @@ public class Chain : MonoBehaviour
         Shader.SetGlobalFloat("_Aspect", aspect);
         displayQuad.localScale = new Vector3(displayQuad.localScale.x, displayQuad.localScale.y / aspect, displayQuad.localScale.z);
         MidiMaster.knobDelegate += Knob;
-        
-        if (preset)
-        {
-            int index = 0;
-            foreach (PassUniforms pass in preset.passUniforms)
-            {
-                if (index < shaders.Count)
-                {
-                    for (int i = 0; i < shaders[index].uniforms.Count && i < pass.uniforms.Count; i++)
-                    {
-                        shaders[index].uniforms[i].Val = pass.uniforms[i].Val;
-                    }
-                }
-                index++;
-            }
 
-            Camera.main.transform.position = preset.cameraPos;
-            Camera.main.transform.rotation = preset.cameraRotation;
-        }
+        LoadPreset();
     }
 
     [ContextMenu("capture")]
@@ -116,6 +99,51 @@ public class Chain : MonoBehaviour
         Preset.CreatePreset(passes, fileName);
     }
 
+    void LoadPreset()
+    {
+        if (preset)
+        {
+            // i should use a dictionary but i couldn't get it to serialize
+            foreach (PassUniforms pass in preset.passUniforms)
+            {
+                int targetShaderIndex = -1;
+
+                for (int i = 0; i < shaders.Count; i++)
+                {
+                    if (shaders[i].name == pass.shaderName)
+                    {
+                        targetShaderIndex = i;
+                        break;
+                    }
+                }
+
+                if (targetShaderIndex != -1)
+                {
+                    for (int i = 0; i < pass.uniforms.Count; i++)
+                    {
+                        int targetUniformIndex = -1;
+
+                        for (int j = 0; j < shaders[targetShaderIndex].uniforms.Count; j++)
+                        {
+                            if (shaders[targetShaderIndex].uniforms[j].UniformName == pass.uniforms[i].UniformName)
+                            {
+                                targetUniformIndex = i;
+                                break;
+                            }
+                        }
+
+                        if (targetUniformIndex != -1)
+                        {
+                            shaders[targetShaderIndex].uniforms[targetUniformIndex].Val = pass.uniforms[i].Val;
+                        }
+                    }
+                }
+            }
+
+            Camera.main.transform.position = preset.cameraPos;
+            Camera.main.transform.rotation = preset.cameraRotation;
+        }
+    }
 
     IEnumerator Render()
     {

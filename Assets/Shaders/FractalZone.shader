@@ -68,7 +68,7 @@
 
 			float march(in float3 pos, in float3 rd)
 			{
-				const int steps = 80;
+				const int steps = 70;
 				const float minDist = 0.001;
 				float depth = 0.;
 
@@ -129,14 +129,14 @@
 				 float dist = march( _CamPos, ray.xyz );
 				 float3 sPos = _CamPos + ray.xyz * dist;
 				 float3 nor = calcNormal(sPos);
-				 //nor.g = 0.;
-				 float3 col = nor * 0.5 + 0.5;
 				 float ao = calcAO(sPos, nor);
 				 float3 ref = reflect( ray, nor );
 				 float shadow = softShadow(sPos, ref, .1, .1);
-
+				 nor.r = 0.;
+				 float3 col = nor * 0.5 + 0.5;
+				 
 				 col *= (_Midi4+dot(ray,nor)) * ao * shadow;
-				 col = lerp(col, 0., saturate(dist/10.) );
+				 col = lerp(col, 0., saturate(dist/_MaxDist) );
 
 				 return float4(col, dist);
 			}

@@ -51,8 +51,8 @@ void pR(inout float2 p, float a) {
 				float2 uv = i.uv;
 				float2 np = uv * 2. - 1.;
 				pR(np, _T*2. + length(np)*4.);
-				uv.x += fbm(np*0.25)*_Amp-_Amp*0.5;
-				uv.y += fbm(np*0.25+10.5)*_Amp-_Amp*0.5;
+				uv.x += fbm(np*0.25)*_Amp-_Amp*0.15;
+				uv.y += fbm(np*0.25+10.5)*_Amp-_Amp*0.15;
                 fixed4 col = tex2D(_MainTex, uv);
 				return col;
             }
