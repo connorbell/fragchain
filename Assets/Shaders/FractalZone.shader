@@ -37,8 +37,9 @@
 			float _MaxDist;
 			float4x4 _CamToWorld;
 
-			#include "DistanceFields.cginc"
-			
+			//#include "DistanceFields.cginc"
+			#include "Mandelbox.cginc"
+
             struct appdata
             {
                 float4 vertex : POSITION;
