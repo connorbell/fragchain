@@ -91,7 +91,6 @@ public class Chain : MonoBehaviour
         {
             PassUniforms info = new PassUniforms();
             info.shaderName = shaderPass.name;
-
             info.uniforms = shaderPass.uniforms;
             passes.Add(info);
         }
@@ -135,6 +134,7 @@ public class Chain : MonoBehaviour
                         if (targetUniformIndex != -1)
                         {
                             shaders[targetShaderIndex].uniforms[targetUniformIndex].Val = pass.uniforms[i].Val;
+                            shaders[targetShaderIndex].uniforms[targetUniformIndex].Range = pass.uniforms[i].Range;   
                         }
                     }
                 }
@@ -219,7 +219,7 @@ public class Chain : MonoBehaviour
     }
     void Knob(MidiChannel channel, int knobNumber, float knobValue)
     {
-        if (knobNumber <= shaders[currentMidiShaderIndex].uniforms.Count)
+        if (knobNumber < shaders[currentMidiShaderIndex].uniforms.Count)
         {
             shaders[currentMidiShaderIndex].uniforms[knobNumber-1].UpdateWithValue(knobValue);
         }
