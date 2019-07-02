@@ -2,30 +2,38 @@
 
 float map(float3 pos) 
 {
-	const int iterations = 20;
+	const int iterations = 10;
 	float3 offset = pos;
 	float scale = _Midi3;
-	float c = _Midi1;
 	float3 p = pos;
-	float orb = 0.;
+	float dr = 0.;
+	float minRadius = _Midi5;
+	float fixedRadius = _Midi6;
+	float ratio = fixedRadius/minRadius;
 
 	for (int i = 0; i < iterations; i++)
 	{
-		p = clamp(p, -1., 1.) * 2. - p;
+		p = clamp(p, -_Midi4, _Midi4) * 2. - p;
 
-		float l = length(p);
+		float r = dot(p,p);
+		float t = 1.;
 
-		if (l < 0.5)
+		if (r < minRadius)
 		{
-			p = p / _Midi1;
+			t = ratio;
 		}
-		else if (l < 1.)
+		else if (r < fixedRadius)
 		{
-			p = 1. / p;
+			t = fixedRadius / r;
 		}
-		p = scale * p + pos;
+
+		p *= t;
+		dr *= t;
+
+		p = scale * p + offset;
+		dr = dr * scale + 1.;
 	}
 
-	float res = length(p) - _Midi2;
-	return res;
+	float r = length(p);
+	return r / abs(dr);
 }
